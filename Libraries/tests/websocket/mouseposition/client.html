@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>WebSocket</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta http-equiv="Content-Language" content="fr"/>
+		
+		<script type="text/javascript" src="../../../js/fnc.js"></script>
+		<script type="text/javascript">
+		
+			var __i = 0;
+			
+			fnc.require(['Network/Websocket', 'Inputs/Mouse'], function() {
+				
+				socket = new Socket('192.168.1.60', 12800);
+				socket.bind('connect', function() {
+					console.log('co');
+					setInterval(function() {
+						var message = JSON.stringify({
+							x: Mouse.x,
+							y: Mouse.y
+						});
+						
+						socket.send(message);
+					 }, 1000);
+				});
+				
+				socket.bind('receive', function(data) {
+					console.log('reçu', data);
+				});
+				
+				socket.bind('disconnect', function(data) {
+					console.log('déco');
+				});
+			});
+		</script>
+		
+		<style> 
+			body {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				background: blue;
+			}
+		</style>	
+	</head>
+	<body>
+	</body>
+</html>

@@ -1,0 +1,30 @@
+{
+	"id"			: "zjFMRIZw3hecoss7EDkbKa0bO8w3xyAK16SeWkS8EDc=",
+	"key"			: "cgsqvSsKKvS21K+y60faqDIt312P0aJraPrZk1+adn4=",
+	"action"		: "post_publication",
+	"parameters"	: {
+		"to_object"		: "zjFMRIZw3hecoss7EDkbKa0bO8w3xyAK16SeWkS8EDc=",
+		"publication"	: {
+			"data"	: [
+				{
+					"value"			: "data7",
+					"type"			: "string",
+					"tags"			: ["tag1", "tag2"],
+					"relationships"	: ["friend", "public"]
+				},
+				{
+					"value"			: "data8",
+					"type"			: "image",
+					"tags"			: ["tag1", "tag2"],
+					"relationships"	: ["r1", "r2"]
+				},
+				{
+					"value"			: "data9",
+					"type"			: "audio",
+					"tags"			: ["tag1", "tag2"],
+					"relationships"	: ["r3", "private"]
+				}
+			]
+		}
+	}
+}

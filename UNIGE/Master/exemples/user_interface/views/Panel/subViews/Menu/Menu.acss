@@ -1,0 +1,45 @@
+.Panel_Menu {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	
+	height: 40px;
+	background-color: #608be5;
+	border-bottom: 4px solid #e6e6e6;
+	
+	.title {
+		height: 100%;
+		line-height: 40px;
+		font-size: 28px;
+		padding: 0px 10px 0px 10px;
+		border-right: 4px solid #e6e6e6;
+		color: white;
+		float:left;
+	}
+}
+
+
+.Panel_Menu_Button {
+	width: 26px;
+	height: 26px;
+	padding: 7px;
+	margin: 0px;
+	
+	float:left;
+
+	:hover, &.selected {
+		width: 32px;
+		height: 32px;
+		padding: 4px;
+		
+	}
+	
+	&.selected {
+		background-color: rgba(255, 255, 255, 0.25);
+	}
+	
+	:hover:not(.selected) {
+		background-color: rgba(255, 255, 255, 0.4);
+	}
+}

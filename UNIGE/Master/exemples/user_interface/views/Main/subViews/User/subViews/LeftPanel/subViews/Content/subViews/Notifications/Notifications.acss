@@ -1,0 +1,7 @@
+.Main_User_LeftPanel_Content_Notifications {
+	width: 100%;
+
+	table {
+		width: 100%;
+	}
+}

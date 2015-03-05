@@ -1,0 +1,8 @@
+.Main_User_LeftPanel_Content_OwnedObjects {
+	display: block;
+	/*background-color: blue;*/
+	
+	table {
+		width: 100%;
+	}
+}

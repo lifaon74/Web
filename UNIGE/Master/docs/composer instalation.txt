@@ -1,0 +1,7 @@
+http://symblog.info/2013/05/04/installer-composer-windows-wamp/
+
+1) Se rendre dans le dossier de notre projet php : cd C:\wamp\www\monProjet
+2) php -r "eval('?>'.file_get_contents('https://getcomposer.org/installer'));"
+3) Créer un fichier composer.json qui contient les libs a charger
+4) php composer.phar install
+5) php composer.phar update

@@ -1,0 +1,9 @@
+{
+	"id"			: "AvwRrdKxYP6awyFgP0/1z/ubWJnO7czGazhtyDlLAYA=",
+	"key"			: "CujCO+hoOwmyS+QMF9Uy+9uzj77mxBlQUwi+rhkZ1u4=",
+	"action"		: "answer_notification",
+	"parameters"	: {
+		"notification_id"	: "P1a2zTACtjQ=",
+		"answer"			: 1
+	}
+}

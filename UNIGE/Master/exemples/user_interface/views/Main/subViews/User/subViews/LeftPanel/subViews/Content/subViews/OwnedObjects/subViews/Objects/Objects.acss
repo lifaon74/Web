@@ -1,0 +1,44 @@
+.Main_User_LeftPanel_Content_OwnedObjects_Object {
+	
+	height: 26px;
+	line-height: 26px;
+	border-bottom: 1px solid rgba(240, 240, 240, 1);
+	
+	:nth-child(2n) {
+		background-color: rgba(255, 255, 255, 1);
+	}
+	
+	:nth-child(2n + 1) {
+		background-color: rgba(245, 245, 245, 1);
+	}
+	
+	:hover {
+		background-color: rgba(96, 139, 229, 0.2);
+	}
+	
+	.icon {
+		width: 26px;
+		
+		img {
+			display: block;
+			height: 16px;
+			width: 16px;
+			padding: 1px;
+			margin: 4px;
+			border-radius: 3px;
+			background-color: rgba(96, 139, 229, 1);
+			opacity: 0.3;
+			
+			/*:hover {
+				opacity: 0.5;
+			}*/
+		}
+	}
+	
+	.name {
+		cursor: default;
+		span {
+			margin-left: 2px;
+		}
+	}
+}

@@ -1,0 +1,9 @@
+.Main_User_RightPanel {
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	right: 0px;
+	left: 404px;
+	
+	background-color: red;
+}

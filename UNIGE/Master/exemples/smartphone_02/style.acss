@@ -1,0 +1,45 @@
+html, body {
+	padding: 0px;
+	margin: 0px;
+	height: 100%;
+	width: 100%;
+}
+
+.hide {
+	display: none;
+}
+
+.unselectable {
+	user-select: none;
+}
+
+
+.clearFloat {
+	clear: both;
+}
+
+table, th, td {
+    border-collapse: collapse;
+	border-spacing: 0px;
+	padding: 0px;
+}
+
+/*-- transitions --*/
+
+.transition250 {
+	transition: 250ms;
+}
+
+.transition500 {
+	transition: 500ms;
+}
+
+.transition1000 {
+	transition: 1000ms;
+}
+
+/*-- style --*/
+
+body {
+	background-color: red;
+}

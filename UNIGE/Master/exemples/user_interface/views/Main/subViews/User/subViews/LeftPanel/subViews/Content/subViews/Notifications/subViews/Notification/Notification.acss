@@ -1,0 +1,76 @@
+.Main_User_LeftPanel_Content_Notifications_Notification {
+	vertical-align: top;
+	border-bottom: 1px solid rgba(240, 240, 240, 1);
+	
+	:nth-child(2n) {
+		background-color: rgba(255, 255, 255, 1);
+	}
+	
+	:nth-child(2n + 1) {
+		background-color: rgba(245, 245, 245, 1);
+	}
+	
+	td {
+		position: relative;
+	}
+	
+	.date, .message, .buttons {
+		width: 100%;
+	}
+	
+	.date {
+		height: 20px;
+		font-size: 11px;
+		line-height: 20px;
+		font-weight: bold;
+		color: rgba(70, 70, 70, 1);
+		/*background-color: red;*/
+		
+		span {
+			margin-left: 4px;
+		}
+	}
+	
+	.message {
+		font-size: 12px;
+		color: rgba(100, 100, 100, 1);
+		/*background-color: blue;*/
+		
+		p {
+			margin: 0px;
+			padding: 1px 10px 1px 10px;
+		}
+	}
+	
+	.buttons {
+		height: 26px;
+		font-size: 12px;
+		/*background-color: green;*/
+		
+		.button {
+			height: 18px;
+			padding: 0px 4px 0px 4px;
+			/*width: 50px;*/
+			
+			margin: 4px 4px 4px 0px;
+			float: right;
+			
+			font-size: 11px;
+			line-height: 18px;
+			text-align: center;
+			color: white;
+			
+			border-radius: 2px;
+			background-color: rgba(96, 139, 229, 0.4);
+			
+			cursor: default;
+			user-select: none;
+
+			:hover {
+				background-color: rgba(96, 139, 229, 0.7);
+			}
+			
+		}
+	}
+	
+}

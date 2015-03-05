@@ -1,0 +1,5 @@
+1) Système
+2) Paramètres système avancés
+3) Variables d'environnement
+4) Chercher "Path" dans Variables système
+5) Modifier et rajouter ;chemin_vers_dossier_contenant_l_executable_de_php

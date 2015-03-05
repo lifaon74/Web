@@ -1,0 +1,73 @@
+html, body {
+	padding: 0px;
+	margin: 0px;
+	height: 100%;
+	width: 100%;
+}
+
+.hide {
+	display: none;
+}
+
+.unselectable {
+	user-select: none;
+}
+
+
+.clearFloat {
+	clear: both;
+}
+
+table, th, td {
+    border-collapse: collapse;
+	border-spacing: 0px;
+	padding: 0px;
+}
+
+/*-- transitions --*/
+
+.transition250 {
+	transition: 250ms;
+}
+
+.transition500 {
+	transition: 500ms;
+}
+
+.transition1000 {
+	transition: 1000ms;
+}
+
+/*-- style --*/
+
+.ui-btn {
+	padding: 24px;
+	font-size: 2em;
+}
+
+.id {
+	color: rgb(96,139,229);
+}
+
+#mainWrapper {
+	width: 100%;
+	
+	
+	text-align: center;
+	table-layout: fixed;
+	/*background-color: red;*/
+	
+	td {
+		
+		padding: 1%;
+		/*border: 1px solid blue;*/
+	}
+	
+	#feedback {
+		display: none;
+		width: 100%;
+		text-align: left;
+		font-size: 1.5em;
+		/*background: blue;*/
+	}
+}

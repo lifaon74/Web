@@ -1,0 +1,9 @@
+.Main_User_LeftPanel {
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	
+	left: 0px;
+	width: 400px;
+	border-right: 4px solid #e6e6e6;
+}

@@ -1,0 +1,9 @@
+{
+	"id"			: "bL7FbHPFU6T2GvVibTnespXKHTg1Sea5P2m5bEu1Lts=",
+	"key"			: "UEFWnjv31PPMaiCNUbkBhaky2j4TsjMsXZFqK3UN99Q=",
+	"action"		: "answer_notification",
+	"parameters"	: {
+		"notification_id"	: "dpTIcI7ReEk=",
+		"answer"			: 1
+	}
+}

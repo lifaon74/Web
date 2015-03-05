@@ -1,0 +1,17 @@
+.Main_User_LeftPanel_Content_NoResults {
+	width: 100%;
+	height: 100%;
+
+	display: table;
+	text-align: center;
+	
+	> .view {
+		
+		display: table-cell;
+		padding: 10%;
+		
+		vertical-align: middle;
+		color: rgba(100, 100, 100, 1);
+		font-size: 12px;
+	}
+}

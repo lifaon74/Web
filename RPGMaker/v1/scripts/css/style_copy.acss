@@ -1,0 +1,156 @@
+body, html {
+	position: absolute;
+	top:0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	margin: 0;
+	
+	overflow: hidden;
+	
+	font-family: Tahoma;
+}
+
+.panel {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	/*overflow: auto;*/
+	
+	&.left, &.right {
+		width: 300px;
+		border-color: black;
+		border-style: solid;
+		border-width: 0px;
+		
+		background-color: rgb(110, 110, 110);
+	}
+	
+	&.left {
+		left: 0;
+		border-right-width: 4px;
+		z-index: 10;
+		
+		.separationLine {
+			position: absolute;
+			left: 0;
+			width: 50px;
+			height: 1px;
+			
+			display: none;
+			
+			background: rgba(255, 255, 255, 0.6);
+		}
+	}
+	
+	&.right {
+		right: 0;
+		border-left-width: 4px;
+	}
+	
+	&.middle {
+		left: 304px;
+		right: 304px;
+		background-color: rgb(50, 50, 50);
+	}
+}
+
+
+.hide {
+	display: none!important;
+}
+	
+.node {
+			
+	user-select: none;
+	
+	 .subNodes {
+		margin-left: 17px;
+		margin-bottom: 5px;
+	}
+	
+	.head {
+		$height = '20px';
+		height: $height;
+		display: inline-block;
+		margin-bottom: -3px;
+		position: relative;
+		top: 0;
+		left: 0;
+			
+		/*width: 300px;*/
+		/*background: green;*/
+		/*overflow: hidden;*/
+		white-space:nowrap;
+		
+		.icons, .nodeName {
+			/*height: 100%;*/
+			float:left;
+			display: inline-block;
+			margin-left: 10px;
+			height: $height;
+		}
+		
+		.icons {	
+			
+			.icon {
+				display: inline-block;
+				float: left;
+				
+				opacity: 0.75;
+				
+				width: 18px;
+				height: $height;
+				
+				background-repeat: no-repeat;
+				background-size: auto 64%;
+				background-position: 50% 50%;
+				
+				&.indent {
+					opacity: 1;
+					background-size: auto 100%;
+					margin-right: 2px;
+				}
+			}
+		}
+		
+		.nodeName {
+			line-height: $height;
+			font-size: 13px;
+		
+			cursor: default;
+			
+			color: rgb(10, 10, 10);
+			
+			outline: none;
+			margin-left: 1px;
+			
+			&.focused, &.selected {
+				margin-top: 2px;
+				height: 17px;
+				line-height: 17px;
+				
+				padding: 0px 8px 0px 8px;
+				border-radius: 2px;
+			}
+				
+			&.focused {
+				color: rgb(50, 50, 50);
+				box-shadow: inset 0px 0px 0px 1px black, inset 0px 2px 0px 0px rgba(0, 0, 0, 0.1), inset 0px -2px 0px 0px rgba(255, 255, 255, 1);
+				background: rgb(240, 240, 240);
+			}
+			
+			&.selected {
+				color: rgb(230, 230, 230);
+				background: rgb(90, 90, 90);;
+			}
+			
+			/*background: none;
+			padding: 0;
+			margin: 0;
+			border: none;
+			height: 100%;
+			*/
+		}
+	}
+}

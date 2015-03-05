@@ -1,0 +1,1070 @@
+<bloc title="Interaction avec ThingBook">
+
+	<bloc title="API : envoie d'une requête">
+		Pour communiquer avec ThingBook, une API REST est mise à disposition pour les utilisateurs, les objets et les applications externes (futur ajout).
+
+		
+		Pour ce faire, il faut effectuer une requête HTTP à l'adresse suivante : https://nom_de_domaine.com/api/api.php.
+
+		Les données sont alors transmisses par méthode GET ou POST en se servant de l'attribut <keyword>query</keyword>.
+		Ce dernier contient une chaine de caractères JSON qui aura le plus souvent la forme suivante :
+		
+		<code language="json">
+			{
+				"id"			: "...",
+				"key"			: "...",
+				"action"		: "...",
+				"parameters"	: {
+					...
+				}
+			}
+		</code>
+		
+
+		<ul>
+			<li>
+				<attribut>id</attribut> : identifiant de l'utilisateur, de l'objet connecté, ou de l'application.
+				Cet identifiant est composé de 256bits et doit être converti en base64 pour être transmissible en JSON.
+			</li>
+			<li>
+				<attribut>key</attribut> : clé secrète suivant la même structure que pour <attribut>id</attribut>.
+			</li>
+			<li>
+				<attribut>action</attribut> : mot clef indiquant l'action à réaliser (voir suite pour plus de détails).
+			</li>
+			<li>
+				<attribut>parameters</attribut> : objet qui contient les paramètres nécessaires à l'action.
+			</li>
+		</ul>
+		
+		<info>
+			Sur ThingBook, utilisateurs, objets connectés et application forment des <keyword>entités</keyword>.
+			Caque entité à un identifiant et une clé secrète uniques permettant de l'authentifier.
+		</info>
+				
+		<info>
+			<attribut>id</attribut> et <attribut>key</attribut> ne sont pas toujours indispensables si l'action demandée ne le nécessite pas, 
+			par exemple lors de l'enregistrement sur le réseau social.
+		</info>
+	</bloc>
+		
+	<bloc title="API : réponse du serveur">
+	
+		<code language="json">
+			{
+				"code"		: "...",
+				"response"	: {
+					...
+				}
+			}
+		</code>
+		
+		Le serveur répondra toujours sous la forme suivante :
+	
+		<ul>
+			<li>
+				<attribut>code</attribut> : définit le statut de la requête. Si la requête est un succès, alors le code retourné sera 0.
+				En cas d'erreur, la valeur de <attribut>code</attribut> permettra de déterminer l'origine de celle-ci.
+			</li>
+			<li>
+				<attribut>response</attribut> : objet qui contient les paramètres en réponse à l'action demandée.
+			</li>
+		</ul>
+		
+	</bloc>
+
+</bloc>
+	
+<bloc title="Actions">
+
+	<bloc title="Enregistrement sur le réseau social">
+	
+		<bloc title="Enregistrement d'un utilisateur : register_user">
+		
+			<bloc title="Requête">
+				<code language="json">
+					{
+						"action"		: "register_user",
+						"parameters"	: {
+							"email"		: "...",
+							"password"	: "..."
+						}
+					}
+				</code>
+		
+				Pour créer un compte utilisateur, l'attribut <attribut>action</attribut> doit avoir pour valeur <keyword>register_user</keyword>,
+				et l'utilisateur doit placer comme paramètre un email valide et son mot de passe.
+			</bloc>
+			
+			<bloc title="Réponse">
+				<code language="json">
+					{
+						"code"		: 0,
+						"response"	: {
+							"id"		: "...",
+							"key"		: "...",
+							"email"		: "..." <!-- pas forcement utile-->
+						}
+					}
+				</code>
+				
+				Le serveur renvoie comme réponse l'identifiant de l'utilisateur, sa clé secrète ainsi que son email.
+			</bloc>
+		
+		</bloc>
+		
+		<bloc title="Enregistrement d'un objet : register_object">
+		
+			<bloc title="Requête">
+				<code language="json">
+					{
+						"action"		: "register_object",
+						"parameters"	: {
+							"id"	: "...",
+							"key"	: "...",
+							"name"	: "...",
+							"type"	: "..."
+						}
+					}
+				</code>
+		
+				<attribut>id</attribut> est l'identifiant unique de l'objet connecté et <attribut>key</attribut> sa clé secrète.
+				<attribut>name</attribut> permet de donner un nom à l'objet connecté pour simplifier la lecture des utilisateurs,
+				et <attribut>type</attribut> détermine le type de l'objet (ex: thermomètre, frigo, voiture,...)
+			</bloc>
+			
+			<bloc title="Réponse">
+				<code language="json">
+					{
+						"code"		: 0,
+						"response"	: {
+							"id"	: "...",
+							"key"	: "...",
+							"name"	: "...",
+							"type"	: "..."
+						}
+					}
+				</code>
+				
+				Le serveur renvoie les attributs enregistrés.
+			</bloc>
+		
+		</bloc>
+		
+	</bloc>		
+		
+	<bloc title="Notifications">
+	
+		ThingBook utilise les notifications pour informer une entité (un utilisateur, un objet, ou une application) d'une action particulière.
+		
+		<bloc title="Lister les notifications : get_notifications">
+		
+			<bloc title="Requête">
+				<code language="json">
+					{
+						"id"			: "...",
+						"key"			: "..."
+						"action"		: "get_notifications"
+					}
+				</code>
+			</bloc>	
+			
+			<bloc title="Réponse">
+				<code language="json">
+					{
+						"code"		: 0,
+						"response"	: {
+							"notifications" : [
+								{
+										"id"			: "...",
+										"type"			: "...",
+										"parameters"	: { ... },
+										"timestamp"		: "..."
+								},
+								...
+							]
+						}
+					}
+				</code>
+				
+				La réponse contient la liste des notifications sous forme d'un tableau,
+				trié par date décroissantes (de la plus récente à la plus ancienne), et qui contient :
+				
+				<ul>
+					<li>
+						l'identifiant de la notification.
+					</li>
+					<li>
+						son type, c'est à dire à quoi correspond la notification (demande d'ajout en ami ? nouvel objet dans ma liste ? ...)
+					</li>
+					<li>
+						les paramètres liés au type de la notification (ex: de qui provient la notification ?).
+					</li>
+					<li>
+						le timestamp (en ms) où la notification a été crée.
+					</li>
+				</ul>
+				
+			</bloc>	
+			
+		</bloc>	
+		
+		<bloc title="Répondre à une notification : answer_notification">
+			<bloc title="Requête">
+				<code language="json">
+					{
+						"id"			: "...",
+						"key"			: "..."
+						"action"		: "answer_notification",
+						"parameters"	: {
+							"notification_id"	: "...",
+							["answer"			: true|false,
+							...
+						}
+					}
+				</code>
+				
+				Pour répondre à une notification, il faut son id récupéré grâce à <keyword>get_notifications</keyword>,
+				plus des paramètres dépendant directement du type de notification.
+				
+				Tant que l'entité n'a pas répondu à la notification, celle-ci restera présente lors de l'appel à <keyword>get_notifications</keyword>.
+			</bloc>	
+			
+			<bloc title="Réponse">
+				<code language="json">
+					{
+						"code"		: 0,
+						"response"	: {}
+					}
+				</code>
+				
+				Aucune réponse n'est attendue lorsque l'on répond à une notification.
+			</bloc>
+			
+		</bloc>	
+		
+		<bloc title="Types de notification">
+		
+			<bloc title="request_for_a_new_owner">
+			
+				<bloc title="Signification">
+					Cette notification est destinée à un utilisateur, l'informant qu'un objet aimerait l'avoir comme nouveau propriétaire.
+				</bloc>
+				
+				<bloc title="Paramètres">
+					<ul>
+						<li>
+							<attribut>from_object</attribut> : l'identifiant de l'objet qui a fait la demande de changement.
+						</li>
+					</ul>
+				</bloc>
+				
+				<bloc title="Réponse">
+					<ul>
+						<li>
+							<attribut>anwser</attribut> : <keyword>true</keyword> ou <keyword>false</keyword> si vous accepter ou non de devenir le nouveau propriétaire.
+							Si l'objet possède déjà un propriétaire, celui-ci est alors notifié de cette demande de changement.
+							S'il accepte alors vous serez le nouveau propriétaire de cet objet.
+						</li>
+					</ul>
+				</bloc>
+				
+			</bloc>
+			
+			<bloc title="rejection_from_the_new_owner">
+			
+				<bloc title="Signification">
+					Cette notification est destinée à un objet qui aurait fait une demande de changement de propriétaire,
+					l'informant que ce nouveau propriétaire a refusé la demande.
+				</bloc>
+				
+				<bloc title="Paramètres">
+					<ul>
+						<li>
+							<attribut>from_user</attribut> : l'identifiant de l'utilisateur qui a refusé.
+						</li>
+					</ul>
+				</bloc>
+				
+			</bloc>
+			
+			<bloc title="request_for_changing_of_owner">
+			
+				<bloc title="Signification">
+					Cette notification est destinée à un utilisateur, le notifiant qu'un objet aimerait changer de propriétaire.
+				</bloc>
+				
+				<bloc title="Paramètres">
+					<ul>
+						<li>
+							<attribut>new_owner</attribut> : l'identifiant du nouveau propriétaire ciblé.
+						</li>
+						<li>
+							<attribut>from_object</attribut> : l'identifiant de l'objet qui a fait la demande de changement.
+						</li>
+					</ul>
+				</bloc>
+				
+				<bloc title="Réponse">
+					<ul>
+						<li>
+							<attribut>anwser</attribut> : <keyword>true</keyword> ou <keyword>false</keyword> si vous accepter ou non de céder l'objet.
+						</li>
+					</ul>
+				</bloc>
+				
+			</bloc>
+			
+			<bloc title="rejection_from_the_actual_owner">
+			
+				<bloc title="Signification">
+					Cette notification est destinée à un objet qui aurait fait une demande de changement de propriétaire, validée par l'utilisateur ciblé,
+					mais refusée par le propriétaire actuel.
+					
+					Cette notification est aussi transmise à l'utilisateur ciblé pour l'informer du refus de l'actuel détenteur.
+				</bloc>
+				
+				<bloc title="Paramètres">
+					<ul>
+						<li>
+							<attribut>new_owner</attribut> : l'identifiant de l'utilisateur ciblé.
+						</li>
+						<li>
+							<attribut>actual_owner</attribut> : l'identifiant du propriétaire.
+						</li>
+					</ul>
+				</bloc>
+				
+			</bloc>
+			
+			<bloc title="have_a_new_owner">
+			
+				<bloc title="Signification">
+					Cette notification est destinée à un objet qui vient de changer de propriétaire. 
+				</bloc>
+				
+				<bloc title="Paramètres">
+					<ul>
+						<li>
+							<attribut>new_owner</attribut> : l'identifiant du nouveau propriétaire.
+						</li>
+					</ul>
+				</bloc>
+				
+			</bloc>
+			
+			<bloc title="have_a_new_object">
+			
+				<bloc title="Signification">
+					Cette notification est destinée à un utilisateur qui vient d'acquérir un nouvel objet. 
+				</bloc>
+				
+				<bloc title="Paramètres">
+					<ul>
+						<li>
+							<attribut>new_object</attribut> : l'identifiant du nouvel objet possédé.
+						</li>
+					</ul>
+				</bloc>
+				
+			</bloc>
+			
+			<bloc title="no_more_possess_an_object">
+			
+				<bloc title="Signification">
+					Cette notification est destinée à un utilisateur qui vient de céder un objet. 
+				</bloc>
+				
+				<bloc title="Paramètres">
+					<ul>
+						<li>
+							<attribut>new_owner</attribut> : l'identifiant du nouveau propriétaire.
+						</li>
+						<li>
+							<attribut>released_object</attribut> : l'identifiant de l'objet cédé.
+						</li>
+					</ul>
+				</bloc>
+				
+			</bloc>
+			
+			
+			<bloc title="request_for_a_new_relationship">
+			
+				<bloc title="Signification">
+					Cette notification est destinée à un objet avec lequel un autre objet aimerait créer une relation. 
+				</bloc>
+				
+				<bloc title="Paramètres">
+					<ul>
+						<li>
+							<attribut>from_object</attribut> : l'identifiant de l'objet qui demande cette nouvelle relation.
+						</li>
+						<li>
+							<attribut>relationship_name</attribut> : le nom de la relation (ex: "ami", "privée", ...).
+						</li>
+					</ul>
+				</bloc>
+				
+				<bloc title="Réponse">
+					<ul>
+						<li>
+							<attribut>anwser</attribut> : <keyword>true</keyword> ou <keyword>false</keyword> si l'objet accepte ou non cette relation.
+						</li>
+					</ul>
+				</bloc>
+				
+			</bloc>
+			
+			<bloc title="accept_new_relationship">
+			
+				<bloc title="Signification">
+					Cette notification est destinée à un objet, l'informant de l'acceptation d'une nouvelle relation. 
+				</bloc>
+				
+				<bloc title="Paramètres">
+					<ul>
+						<li>
+							<attribut>from_object</attribut> : l'identifiant de l'objet qui à accepté cette nouvelle relation.
+						</li>
+						<li>
+							<attribut>relationship_name</attribut> : le nom de la relation.
+						</li>
+					</ul>
+				</bloc>
+			
+			</bloc>
+			
+			<bloc title="refuse_new_relationship">
+			
+				<bloc title="Signification">
+					Cette notification est destinée à un objet, l'informant du refus d'une nouvelle relation. 
+				</bloc>
+				
+				<bloc title="Paramètres">
+					<ul>
+						<li>
+							<attribut>from_object</attribut> : l'identifiant de l'objet qui à refusé cette nouvelle relation.
+						</li>
+						<li>
+							<attribut>relationship_name</attribut> : le nom de la relation.
+						</li>
+					</ul>
+				</bloc>
+			
+			</bloc>
+			
+			<bloc title="remove_relationship">
+			
+				<bloc title="Signification">
+					Cette notification est destinée à un objet, l'informant de la suppression d'une relation. 
+				</bloc>
+				
+				<bloc title="Paramètres">
+					<ul>
+						<li>
+							<attribut>from_object</attribut> : l'identifiant de l'objet qui à supprimé la relation.
+						</li>
+						<li>
+							<attribut>relationship_name</attribut> : le nom de la relation.
+						</li>
+					</ul>
+				</bloc>
+			
+			</bloc>
+			
+			
+		</bloc>
+			
+	</bloc>	
+		
+
+	<bloc title="Actions utilisateur">
+	
+		<bloc title="Authentification d'un utilisateur : authenticate">
+		
+			<bloc title="Requête">
+				<code language="json">
+					{
+						"action"		: "authenticate",
+						"parameters"	: {
+							"email"		: "...",
+							"password"	: "..."
+						}
+					}
+				</code>
+		
+				Cette action permet à l'utilisateur de convertir le couple email / password en id / key
+				qui permettront à l'utilisateur de s'identifier	pour les actions suivantes.
+			</bloc>	
+			
+			<bloc title="Réponse">
+				<code language="json">
+					{
+						"code"		: 0,
+						"response"	: {
+							"id"		: "...",
+							"key"		: "...",
+							"email"		: "..."
+						}
+					}
+				</code>
+			</bloc>	
+		
+		</bloc>	
+		
+		<bloc title="Récupérer la liste de ses objets connectés : list_owned_objects">
+		
+			<bloc title="Requête">
+				<code language="json">
+					{
+						"id"			: "...",
+						"key"			: "...",
+						"action"		: "list_owned_objects"
+					}
+				</code>
+			</bloc>	
+			
+			<bloc title="Réponse">
+				<code language="json">
+					{
+						"code"		: 0,
+						"response"	: {
+							"owned_objects" : [
+								{
+									"id"					: "...",
+									"key"					: "...",
+									"name"					: "...",
+									"type"					: "...",
+									"ownership_timestamp"	: "..."
+								},
+								...
+							]
+						}
+					}
+				</code>
+				
+				La réponse contient la liste des objets possédés sous forme d'un tableau, contenant les identifiants des objets, leur nom, leur type,
+				ainsi que le timestamp (en millisecondes) de la date à laquelle l'objet est entré en possession de l'utilisateur.
+			</bloc>	
+		
+		</bloc>	
+			
+	</bloc>			
+	
+	<bloc title="Actions objet connecté">
+	
+		<bloc title="Publications">
+		
+			<bloc title="Structure d'une publication">
+				<code language="json">
+					"data"	: [
+						{
+							"value"			: "...",
+							"type"			: "...",
+							"tags"			: ["...", ...],
+							"relationships"	: ["...", ...]
+						},
+						...
+					]
+				</code>
+			
+				Lorsqu'un objet publie des données, il peut les regrouper en publication.
+				Cela permet de grouper des données, qui par exemple, auraient un lien entres elles.
+				
+				L'attribut <attribut>data</attribut> est un tableau qui contient les données à publier.
+				
+				Chaque données possède les attributs suivants :
+				
+				<ul>
+					<li>
+						<attribut>value</attribut> : la valeur de la donnée.
+						Cette valeur peut être un nombre, une chaine de caractères,	ou encore des données binaires (qui devront alors être converties en base64 pour être transmissible en JSON).
+					</li>
+					<li>
+						<attribut>type</attribut> : le type de la donnée.
+						Les types valides sont :
+						<ul>
+							<li>
+								raw : pour des données binaires.
+							</li>
+							<li>
+								number : pour un nombre.
+							</li>
+							<li>
+								string : pour une chaine de caractères.
+							</li>
+							<li>
+								image : pour une image.
+							</li>
+							<li>
+								audio : pour un son.
+							</li><li>
+								video : pour une vidéo.
+							</li>
+						</ul>
+					</li>
+					<li>
+						<attribut>tags</attribut> : un tableau contenant une liste de tags à associer à une donnée.
+						<info>
+							Les tags sont libres (il est possible de placer n'importe quelle valeur).
+						</info>
+					</li>
+					<li>
+						<attribut>relationships</attribut> : un tableau contenant une liste de relations à associer à une donnée.
+						Cette liste permet de limiter le visibilité de la donnée, en fonction des relations qu'entretiennent l'objet pour lequel la donnée a été adressée
+						et l'objet qui viendrait lire cette donnée.
+						
+						Exemple :
+							Obj2 possède une relation "ami" avec Obj1.
+							Obj3 ne possède aucune relation avec Obj1.
+							Obj1 publie une donnée sur son profil avec comme attribut <attribut>relationships</attribut> : ["ami"]
+							Si Obj2 consulte le profil de Ob1, il pourra lire cette donnée car il est "ami" avec Obj1.
+							Si Obj3 consulte le profil de Ob1, il n'aura pas accès à cette donnée.
+						
+						<info>
+							Les relations sont libres (il est possible de placer n'importe quelle valeur), et il est possible d'utiliser les mots clé :
+							<keyword>public</keyword> et <keyword>private</keyword>, si la donnée est respectivement publique (visible par tous les objets) ou privée (visible seulement par l'auteur et par l'objet auquel la donnée est destinée).
+						</info>
+					</li>
+				</ul>
+				
+			</bloc>
+			
+			<bloc title="Publication de données : post_publication">
+			
+				<bloc title="Requête">
+					<code language="json">
+						{
+							"id"			: "...",
+							"key"			: "...",
+							"action"		: "post_publication",
+							"parameters"	: {
+								"to_object"		: "...",
+								"publication"	: {
+									"data"	: [
+										{
+											"value"			: "...",
+											"type"			: "...",
+											"tags"			: ["...", ...],
+											"relationships"	: ["...", ...]
+										},
+										...
+									]
+								}
+							}
+						}
+					</code>
+			
+					Cette action permet à un objet de publier des données.
+					
+					<attribut>parameters</attribut> a deux attributs :
+					
+					<ul>
+						<li>
+							<attribut>to_object</attribut> : identifiant de l'objet auquel est adressé la publication.
+							Il est possible de publier des données sur son profil personnel en plaçant sa propre clé,
+							ou sur le profil d'un autre objet en plaçant une clé différente.
+						</li>
+						<li>
+							<attribut>publication</attribut> : publication qui suit la structure vue précédemment.
+						</li>
+					</ul>
+				</bloc>	
+				
+				<bloc title="Réponse">
+					<code language="json">
+						{
+							"code"		: 0,
+							"response"	: {
+								"publication_id" : "..."
+							}
+						}
+					</code>
+				</bloc>	
+				
+				Chaque publication possède un identifiant unique généré par le serveur.
+				<attribut>publication_id</attribut> permet d'obtenir cet identifiant, qui pourra être utilisé dans certaines actions.
+			</bloc>	
+			
+			<bloc title="Lire une publication : get_publication">
+		
+				<bloc title="Requête">
+					<code language="json">
+						{
+							"id"			: "...",
+							"key"			: "...",
+							"action"		: "get_publication",
+							"parameters"	: {
+								"publication_id" : "..."
+							}
+						}
+					</code>
+					
+					<attribut>publication_id</attribut> :  identifiant de la publication à lire.
+				</bloc>	
+				
+				<bloc title="Réponse">
+					<code language="json">
+						{
+							"code"		: 0,
+							"response"	: {
+								"publication" : {
+									"data"	: {
+										...
+									},
+									"id"			: "...",
+									"from_object"	: "...",
+									"to_object"		: "...",
+									"timestamp"		: "..."
+								}
+							}
+						}
+					</code>
+					
+					<ul>
+						<li>
+							<attribut>data</attribut> : contient les données d'une publication. Structure vue précédemment.
+						</li>
+						<li>
+							<attribut>id</attribut> : identifiant de la publication.
+						</li>
+						<li>
+							<attribut>from_object</attribut> : identifiant de l'objet qui a posté la publication.
+						</li>
+						<li>
+							<attribut>to_object</attribut> : identifiant de l'objet à qui est adressée la publication.
+						</li>
+						<li>
+							<attribut>timestamp</attribut> : timestamp (en millisecondes) de la date à laquelle la publication a été postée.
+						</li>
+					</ul>
+				</bloc>	
+			
+			</bloc>	
+				
+			<bloc title="Lire plusieurs publications : get_publications">
+		
+				<bloc title="Requête">
+					<code language="json">
+						{
+							"id"			: "...",
+							"key"			: "...",
+							"action"		: "get_publications",
+							"parameters"	: {
+								"of_object"				: "...",
+								"before_publication"	: "...", // OPTIONAL
+								"after_publication"		: "...", // OPTIONAL
+								"before_date"			: "...", // OPTIONAL
+								"after_date"			: "...", // OPTIONAL
+								"limit"					: "..."  // OPTIONAL
+							}
+						}
+					</code>
+					
+					<ul>
+						<li>
+							<attribut>of_object</attribut> : identifiant de l'objet pour lequel on veut lire les publications.
+						</li>
+						<li>
+							<attribut>before_publication</attribut> : attribut optionnel qui prend comme valeur un identifiant de publication.
+							Les publications retournées seront toutes située avant cette publication.
+						</li>
+						<li>
+							<attribut>after_publication</attribut> : attribut optionnel qui prend comme valeur un identifiant de publication.
+							Les publications retournées seront toutes située après cette publication.
+						</li>
+						<li>
+							<attribut>before_date</attribut> : attribut optionnel qui prend comme valeur un timestamp (en millisecondes).
+							Les publications retournées seront toutes située avant cette date.
+						</li>
+						<li>
+							<attribut>after_date</attribut> : attribut optionnel qui prend comme valeur un timestamp (en millisecondes).
+							Les publications retournées seront toutes située après cette date.
+						</li>
+						<li>
+							<attribut>limit</attribut> : attribut optionnel qui prend comme valeur un nombre.
+							Le nombre de publications retournées sera maximisé par cette valeur.
+							<info>
+								Si cet attribut n'est pas définit, sa valeur sera alors de 10.
+							</info>
+							<info>
+								La valeur maximale pour cet attribut est de 100.
+							</info>
+						</li>
+					</ul>
+				</bloc>	
+				
+				<bloc title="Réponse">
+					<code language="json">
+						{
+							"code"		: 0,
+							"response"	: {
+								"publications" : [
+									{
+										"data"	: {
+											...
+										},
+										"id"			: "...",
+										"from_object"	: "...",
+										"to_object"		: "...",
+										"timestamp"		: "..."
+									},
+									...
+								]
+							}
+						}
+					</code>
+					
+					<attribut>publications</attribut> : est un tableau qui contient les publications demandées.
+					
+					<info>
+						Les résultats sont ordonnés par date décroissante.
+					</info>
+				</bloc>	
+			
+			</bloc>	
+		
+			<bloc title="Supprimer une publication : remove_publication">
+		
+				<bloc title="Requête">
+					<code language="json">
+						{
+							"id"			: "...",
+							"key"			: "...",
+							"action"		: "remove_publication",
+							"parameters"	: {
+								"publication_id" : "...",
+							}
+						}
+					</code>
+					
+					<attribut>publication_id</attribut> : identifiant de la publication à supprimer.
+				</bloc>	
+				
+				<bloc title="Réponse">
+					<code language="json">
+						{
+							"code"		: 0,
+							"response"	: {}
+						}
+					</code>
+				</bloc>	
+			
+			</bloc>	
+			
+		</bloc>	
+		
+		<bloc title="Propriétaire">
+		
+			<bloc title="Changer de propriétaire : request_for_a_new_owner">
+		
+				<bloc title="Requête">
+					<code language="json">
+						{
+							"id"			: "...",
+							"key"			: "...",
+							"action"		: "request_for_a_new_owner",
+							"parameters"	: {
+								"user_id" : "..."
+							}
+						}
+					</code>
+					
+					<attribut>user_id</attribut> : identifiant de l'utilisateur avec lequel l'objet connecté aimerait créer une relation propriétaire/possédé.
+					
+					Lorsqu'un objet veut changer de propriétaire, cela créer une notification informant l'utilisateur visé que cet objet le veut comme nouveau propriétaire.
+					
+					Si cet utilisateur accepte, deux cas de figure se présentent :
+						L'objet n'a pas encore de propriétaire => l'utilisateur visé devient automatiquement le nouveau propriétaire.
+						L'objet a déjà un propriétaire => celui ci est notifié de la demande de changement.
+							Si le propriétaire actuel accepte cette demande, alors l'objet change de propriétaire.
+				</bloc>	
+				
+				<bloc title="Réponse">
+					<code language="json">
+						{
+							"code"		: 0,
+							"response"	: {
+								"notification_id" : "..."
+							}
+						}
+					</code>
+					
+					<attribut>notification_id</attribut> : identifiant de la notification crée.
+					
+				</bloc>	
+			
+			</bloc>	
+		
+		</bloc>	
+	
+		<bloc title="Relations">
+		
+			<bloc title="Demande d'une nouvelle relation : request_for_a_new_relationship">
+		
+				<bloc title="Requête">
+					<code language="json">
+						{
+							"id"			: "...",
+							"key"			: "...",
+							"action"		: "request_for_a_new_relationship",
+							"parameters"	: {
+								"relationship"	: "...",
+								"with_object"	: "..."
+							}
+						}
+					</code>
+					
+					<ul>
+						<li>
+							<attribut>relationship</attribut> : le nom de la relation que l'on aimerait créer.
+						</li>
+						<li>
+							<attribut>with_object</attribut> : l'identifiant de l'objet avec lequel on aimerait créer la relation.
+						</li>
+					</ul>
+					
+					
+					Lorsqu'un objet (ex: obj_1) veut changer créer une relation avec un autre objet (ex: obj_2),
+					cela créer une notification informant obj_2 que obj_1 le veut comme nouveau propriétaire.
+					
+					Si obj_2 accepte alors la relation est crée et obj_1 est notifié qu'il a crée une nouvelle relation.
+					En cas de refus, obj_1 est notifié que obj_2 a refusé.
+					
+							
+					<info>
+						Les relations sont à double sens : si obj_1 est "ami" avec obj_2 alors obj_2 est aussi "ami" avec obj_1.
+					</info>
+				</bloc>	
+				
+				<bloc title="Réponse">
+					<code language="json">
+						{
+							"code"		: 0,
+							"response"	: null
+						}
+					</code>
+					
+					Aucune réponse n'est attendue.
+				</bloc>	
+			
+			</bloc>	
+		
+			<bloc title="Récupérer les relations d'un objet : get_relationships">
+		
+				<bloc title="Requête">
+					<code language="json">
+						{
+							"id"			: "...",
+							"key"			: "...",
+							"action"		: "get_relationships",
+							"parameters"	: {
+								"of_object"	: "..."
+							}
+						}
+					</code>
+					
+					<attribut>of_object</attribut> : l'identifiant de l'objet pour lequel on veut récupérer les relations.
+				</bloc>	
+				
+				<bloc title="Réponse">
+					<code language="json">
+						{
+							"code"		: 0,
+							"response"	: {
+								"relationships" : [
+									"identifiant d'un objet" : [
+										{
+											"relationship_name" : "...",
+											"timestamp"			: "..."
+										},
+										...
+									],
+									...
+								]
+							}
+						}
+					</code>
+					
+					La réponse contient comme seul attribut <attribut>relationships</attribut> qui est un tableau contenant une liste d'objet.
+					L'index de ce tableau est l'identifiant de l'objet avec lequel on est ami.
+					
+					Chaque objet, est un tableau qui contient une liste de relations, avec :
+					
+					<ul>
+						<li>
+							<attribut>relationship_name</attribut> : le nom de la relation.
+						</li>
+						<li>
+							<attribut>timestamp</attribut> : le timestamp (en millisecondes) indiquant la date à laquelle a été crée cette relation.
+						</li>
+					</ul>
+					
+				</bloc>	
+			
+			</bloc>	
+			
+			<bloc title="Suppression d'une relation : remove_relationship">
+		
+				<bloc title="Requête">
+					<code language="json">
+						{
+							"id"			: "...",
+							"key"			: "...",
+							"action"		: "remove_relationship",
+							"parameters"	: {
+								"relationship"	: "...",
+								"with_object"	: "..."
+							}
+						}
+					</code>
+					
+					<ul>
+						<li>
+							<attribut>relationship</attribut> : le nom de la relation que l'on supprime.
+						</li>
+						<li>
+							<attribut>with_object</attribut> : l'identifiant de l'objet avec lequel on supprime la relation.
+						</li>
+					</ul>
+					
+				</bloc>	
+				
+				<bloc title="Réponse">
+					<code language="json">
+						{
+							"code"		: 0,
+							"response"	: null
+						}
+					</code>
+					
+					Aucune réponse n'est attendue.
+				</bloc>	
+			
+			</bloc>	
+			
+		</bloc>	
+		
+	</bloc>		
+	
+</bloc>		
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
