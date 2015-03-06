@@ -67,7 +67,7 @@ fnc.require(['ThingBookAPI', 'Cookies'], function() {
 					core.endOfUpdate();
 				},
 				function(code, message) {
-					core.displayFeedback("[ERREUR] : ?");
+					core.displayFeedback("[ERREUR] : while posting");
 					console.warn(code, message);
 				}
 			);
@@ -132,10 +132,9 @@ fnc.require(['ThingBookAPI', 'Cookies'], function() {
 							ThingBookAPI.answer_notification(
 								notification.id,
 								{ "answer": true },
-								function(response) {
-									console.log(notification);
+								fnc.closure(function(response, notification) {
 									core.displayFeedback("Création d'une relation \"" + notification.parameters.relationship_name + "\" avec <span class=\"id\">" + notification.parameters.from_object + "</span>");
-								},
+								}, notification),
 								function(code, message) {
 									core.displayFeedback("[ERREUR] : ?");
 									console.warn(code, message);

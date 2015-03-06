@@ -21,22 +21,51 @@ fnc.require(['jQuery', 'ThingBookAPI', 'Cookies'], function() {
 	}
 
 	core.objectRegistered = function() {
-		console.log("register_object");
-		core.createRelationship();
+		console.log("object is registered");
+		core.waitFriendship();
 	}
 	
-	core.createRelationship = function() {
+	core.waitFriendship = function() {
+		core.is_friend(function(is_friend) {
+			if(is_friend) {
+			core.updateColor();
+			} else {
+				core.createRelationship(function() {
+					setTimeout(core.waitFriendship, core.updateTime);
+				});
+			}
+		});
+	}
+	
+	core.is_friend = function(callback) {
 		ThingBookAPI.get_relationships(
+			ThingBookAPI.id,
+			function(response) {
+				if(typeof response.relationships[core.friendId] != "undefined") {
+					console.log("objects are friends");
+					callback(true);
+				} else {
+					console.log("objects are not friends");
+					callback(false);
+				}
+			},
+			function(code, message) {
+				console.warn(code, message);
+				callback(false);
+			}
+		);
+	}
+	
+	core.createRelationship = function(callback) {
+		
+		/*ThingBookAPI.get_relationships(
 			ThingBookAPI.id,
 			function(response) {
 				if(typeof response.relationships[core.friendId] != "undefined") {
 					core.relationExists = true;
 					console.log("objects are friends");
 					
-					setInterval(function() {
-						core.updateColor();
-					}, 1000);
-		
+					core.updateColor();
 				} else {
 					core.relationExists	= false;
 					ThingBookAPI.request_for_a_new_relationship(
@@ -44,7 +73,6 @@ fnc.require(['jQuery', 'ThingBookAPI', 'Cookies'], function() {
 						core.friendId,
 						function(response) {
 							console.log("request_for_a_new_relationship");
-							setTimeout(core.createRelationship, 1000);
 						},
 						function(code, message) {
 							console.warn(code, message);
@@ -55,7 +83,25 @@ fnc.require(['jQuery', 'ThingBookAPI', 'Cookies'], function() {
 			function(code, message) {
 				console.warn(code, message);
 			}
-		);
+		);*/
+		
+		if(core.askedAFriendship) {
+			callback();
+		} else {
+			core.askedAFriendship = true;
+			ThingBookAPI.request_for_a_new_relationship(
+				"friend",
+				core.friendId,
+				function(response) {
+					console.log("request_for_a_new_relationship");
+					callback();
+				},
+				function(code, message) {
+					console.warn(code, message);
+					callback();
+				}
+			);
+		}
 	}
 	
 	core.updateColor = function() {
@@ -67,17 +113,20 @@ fnc.require(['jQuery', 'ThingBookAPI', 'Cookies'], function() {
 					var publication = response.publications[0];
 					for(var i = 0; i < publication.data.length; i++) {
 						var data = publication.data[i];
-						for(var j = 0; j < data.tags.length; j++) {
-							var tag = data.tags[j];
-							if(tag == "range") {
-								console.log(data.value);
-								var r = g = b = data.value;
-								document.body.style.backgroundColor = "rgb(" + r + ", " + g + ", " + b + ")";
+						if(typeof data.value != 'undefined') {
+							for(var j = 0; j < data.tags.length; j++) {
+								var tag = data.tags[j];
+								if(tag == "range") {
+									console.log(data.value);
+									var r = g = b = data.value;
+									document.body.style.backgroundColor = "rgb(" + r + ", " + g + ", " + b + ")";
+								}
 							}
 						}
 					}
 				}
 				
+				setTimeout(core.updateColor, core.updateTime);
 			},
 			function(code, message) {
 				console.warn(code, message);
@@ -85,10 +134,18 @@ fnc.require(['jQuery', 'ThingBookAPI', 'Cookies'], function() {
 		);
 	}
 	
+	core.updateTime	= 1;
 	core.friendId		= "JKlX1OMExkyo4qksqIqUUvYGIrGGQHZQKI6FOR8PJ00=";
-
+	core.askedAFriendship = false;
+	
 	core.loadCredentials();
 	
-	
-	ThingBookAPI.register_object("smartphone_02", "smartphone", core.objectRegistered, core.objectRegistered);
+	self.started = false;
+	$(document.body).on('click', function() {
+		if(!self.started) {
+			self.started = true;
+			console.log("start");
+			ThingBookAPI.register_object("smartphone_02", "smartphone", core.objectRegistered, core.objectRegistered);
+		}
+	});
 });

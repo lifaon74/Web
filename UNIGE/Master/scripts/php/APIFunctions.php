@@ -764,8 +764,9 @@ class APIFunctions {
 				) {
 						// get the different relationships of the selected object
 					$relationships = $this->getRelationships($query_from_object_id, $publication->to_object);
-					if(isset($relationships->$query_from_object_id)) {
-						$relationshipsBetweenObjects = $relationships->$query_from_object_id;
+					
+					if(isset($relationships[$query_from_object_id])) {
+						$relationshipsBetweenObjects = $relationships[$query_from_object_id];
 					} else {
 						$relationshipsBetweenObjects = null;
 					}
@@ -778,14 +779,13 @@ class APIFunctions {
 						$allowed = false;
 						
 						
-						
 							// we inspect all relationships allowed
 						foreach($data->relationships as $allowedRelationship) {
 							if($allowedRelationship == 'public') {
 								$allowed = true;
-							} else if($relationshipsBetweenObjects) {
+							} else if($relationshipsBetweenObjects !== null) {
 								foreach($relationshipsBetweenObjects as $relationship) {
-									if($relationship->name == $allowedRelationship) {
+									if($relationship->relationship_name == $allowedRelationship) {
 										$allowed = true;
 										break;
 									}

@@ -3,6 +3,7 @@ Views.register('Main/Object', 'div', function(self) {
 		self.object	= object;
 		self.panelView.menuView.setTitle(self.object.name);
 		self.panelView.displayView(self.findChildrenViews('Main/Object/Publications')[0]);
+		//self.panelView.displayView(self.findChildrenViews('Main/Object/Relationships')[0]);
 	}
 	
 		
@@ -33,7 +34,7 @@ Views.register('Main/Object', 'div', function(self) {
 	});
 	
 	self.panelView.appendView({
-		'view'		: Views.new('Main/User/LeftPanel/Content/OwnedObjects'),
+		'view'		: Views.new('Main/Object/Relationships'),
 		'button'	: {
 			'url'	: 'share_2_white.png',
 			'title'	: 'Afficher les relations'

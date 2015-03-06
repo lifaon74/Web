@@ -27,7 +27,7 @@ class mySQL {
 	
 	public function listTables() {
 		$returnedTables = [];
-		$tables = $this->query("SHOW TABLES FROM " . $this->databaseName);
+		$tables = $this->query("SHOW TABLES FROM " . $this->databaseName, [], true);
 		foreach($tables as $table) {
 			$returnedTables[] = $table[0];
 		}
@@ -35,7 +35,7 @@ class mySQL {
 	}
 	
 	public function listAttributes($tableName) {
-		$attributes = $this->query("SHOW COLUMNS FROM " . $tableName);
+		$attributes = $this->query("SHOW COLUMNS FROM " . $tableName, [], true);
 		return $attributes;
 	}
 	
@@ -144,7 +144,17 @@ class mySQL {
 	
 }
 
-$mySQL = new mySQL('127.0.0.1', 'Administrateur', 'Pa$$W0rd', 'thingbook');
+switch($_SERVER['HTTP_HOST']) {
+	case 'localhost':
+	case '78.244.106.44':
+		$mySQL = new mySQL('127.0.0.1', 'Administrateur', 'Pa$$W0rd', 'thingbook');
+	break;
+	case 'thingbook.valentin-richard.com':
+		$mySQL = new mySQL('127.0.0.1', 'lifaon74_master', 'Pa$$W0rd', 'lifaon74_thingbook');
+	break;
+}
+
+
 
 //$mySQL->insert('object', ['15', '0', 'd', 'lumiere']);
 /*$result = $mySQL->query("SELECT * FROM object WHERE obj_name = {name}", ['name' => 'd']);

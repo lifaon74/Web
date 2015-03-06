@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>ThingBook - Test 01</title>
+		<title>ThingBook - Smartphone 01</title>
 
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		<meta http-equiv="Content-Language" content="fr"/>

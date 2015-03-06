@@ -109,7 +109,6 @@ if(isset($_REQUEST['action'])) {
 			';
 			
 			$response = callAPI($json);
-
 			$switchOn = false; 
 			if(count($response->response->publications) > 0) {
 				$publication = $response->response->publications[0];

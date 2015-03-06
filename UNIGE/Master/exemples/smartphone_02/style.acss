@@ -41,5 +41,5 @@ table, th, td {
 /*-- style --*/
 
 body {
-	background-color: red;
+	background-color: black;
 }

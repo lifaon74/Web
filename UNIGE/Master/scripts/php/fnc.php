@@ -1,6 +1,5 @@
 <?php
 
-
 class Fnc {
 	public $projectRoot;
 	public $relativeProjectRoot;
@@ -21,7 +20,7 @@ class Fnc {
 	
 	function getRelativeProjectRoot() {
 		$caller = $this->formatPath(get_included_files()[0]);
-	
+
 		$callerPath = preg_replace('#' . preg_quote($this->projectRoot) . '#sU', '', $caller);
 
 		$callerPathSplitted = explode("/", $callerPath);
@@ -43,6 +42,13 @@ class Fnc {
 	}
 }
 
-$fnc = new Fnc('E:\wamp\www\Web\UNIGE\Master');
-
+switch($_SERVER['HTTP_HOST']) {
+	case 'localhost':
+	case '78.244.106.44':
+		$fnc = new Fnc('E:\wamp\www\Web\UNIGE\Master');
+	break;
+	case 'thingbook.valentin-richard.com':
+		$fnc = new Fnc('/home/lifaon74/public_html/thingbook/UNIGE/Master');
+	break;
+}
 ?>
