@@ -1,8 +1,14 @@
 <?php
-	if(in_array($_SERVER['HTTP_HOST'], array('localhost', '127.0.0.1'))) {
-		$root = '../..';
-	} else {
-		$root = '../..';
+	switch($_SERVER['HTTP_HOST']) {
+		case 'localhost':
+		case '127.0.0.1':
+			$root = '../..';
+		break;
+		case 'documents.valentin-richard.com':
+			$root = '..';
+		break;
+		default:
+			$root = '../..';
 	}
 	
 	$vars = array();
