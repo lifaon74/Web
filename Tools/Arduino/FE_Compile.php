@@ -349,7 +349,32 @@ class Atmega328P_32MLF extends Microcontroller {
 
 }
 
+class ATtiny85 extends Microcontroller {
+	
+	
+	function __construct() {
+		$this->name = 'ATtiny85';
+		$this->AVRname = '__AVR_ATtiny85__';
+		
+		$this->numberOfPin = 32;
+		
+		$this->pinsFunctions = [
+			[new DigitalPort('B', 5)], // 1
+			[new DigitalPort('B', 3)], // 2
+			[new DigitalPort('B', 4)], // 3
+			[], // 4
+			[new DigitalPort('B', 0)], // 5
+			[new DigitalPort('B', 1)], // 6
+			[new DigitalPort('B', 2)], // 7
+			[] // 8
+		];
+		
+		$this->interruptPortGroupsPins = [];
+		
+		parent::__construct();
+	}
 
+}
 
 class ArduinoCard {
 	public $name;
@@ -575,6 +600,26 @@ class ArduinoNano extends ArduinoCard {
 			
 			['TX0'], // 31
 			['D2']  // 32
+		];
+	}
+
+}
+
+class ArduinoTiny extends ArduinoCard {
+
+	function __construct() {
+		$this->name = 'ArduinoTiny';
+		$this->microcontroller = new ATtiny85();
+		
+		$this->microcontrollerPinToArduinoPin = [
+			['D0'], // 1
+			['D1'], // 2
+			['D2'], // 3
+			[], // 4
+			['D3'], // 5
+			['D4'], // 6
+			['D5'], // 7
+			[] // 8
 		];
 	}
 
@@ -891,7 +936,7 @@ header("Content-Type:text/plain");
 
 $FE_compiler = new FE_compiler("compiled/");
 
-$FE_compiler->compileFor([new ArduinoProMini(), new ArduinoNano(), new ArduinoProMicro(), new ArduinoYun()]);
+$FE_compiler->compileFor([new ArduinoProMini(), new ArduinoNano(), new ArduinoProMicro(), new ArduinoYun(), new ArduinoTiny()]);
 //$FE_compiler->compileFor(new ArduinoProMini());
 
 //echo $FE_compiler->compileFor_PIN_TO_MASK_AND_PORT();
