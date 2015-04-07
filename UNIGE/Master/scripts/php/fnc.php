@@ -1,5 +1,7 @@
 <?php
 
+include(__DIR__ . '/../../config.php');
+
 class Fnc {
 	public $projectRoot;
 	public $relativeProjectRoot;
@@ -42,13 +44,5 @@ class Fnc {
 	}
 }
 
-switch($_SERVER['HTTP_HOST']) {
-	case 'localhost':
-	case '78.244.106.44':
-		$fnc = new Fnc('E:\wamp\www\Web\UNIGE\Master');
-	break;
-	case 'thingbook.valentin-richard.com':
-		$fnc = new Fnc('/home/lifaon74/public_html/thingbook/UNIGE/Master');
-	break;
-}
+$fnc = new Fnc($_CONST_ROOT_PATH);
 ?>

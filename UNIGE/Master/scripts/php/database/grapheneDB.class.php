@@ -132,27 +132,7 @@ class ObjectQueries extends GrapheneDB {
 	
 }
 
-$grapheneDB = new GrapheneDB('thingbook.sb02.stations.graphenedb.com', 24789, 'thingbook', 'ff0lmru9Inh57K0CIQw4');
-
-/*$ObjectQueries = new ObjectQueries();
-
-echo "result : \n";
-
-$ObjectQueries->clear();
-
-for($i = 0; $i < 5; $i++) {
-	$ObjectQueries->addObject($i);
-}
-
-//$ObjectQueries->getObject(0);
-$ObjectQueries->createRelationship(0, 'amis', 1);
-$ObjectQueries->createRelationship(0, 'amis', 1);
-$ObjectQueries->createRelationship(0, 'friend', 1);
-$ObjectQueries->createRelationship(0, 'amis', 2);
-print_r($ObjectQueries->getRelationships(0));
-
-$ObjectQueries->removeRelationship(0, 'friend', 1);
-print_r($ObjectQueries->getRelationships(0));*/
+$grapheneDB = new GrapheneDB($_CONST_GRAPHENEDB_HOST_NAME, $_CONST_GRAPHENEDB_HOST_PORT, $_CONST_GRAPHENEDB_DB_NAME, $_CONST_GRAPHENEDB_KEY);
 
 	
 ?>

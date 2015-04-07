@@ -144,19 +144,6 @@ class mySQL {
 	
 }
 
-switch($_SERVER['HTTP_HOST']) {
-	case 'localhost':
-	case '78.244.106.44':
-		$mySQL = new mySQL('127.0.0.1', 'Administrateur', 'Pa$$W0rd', 'thingbook');
-	break;
-	case 'thingbook.valentin-richard.com':
-		$mySQL = new mySQL('127.0.0.1', 'lifaon74_master', 'Pa$$W0rd', 'lifaon74_thingbook');
-	break;
-}
+$mySQL = new mySQL($_CONST_MYSQL_HOST, $_CONST_MYSQL_USER_NAME, $_CONST_MYSQL_PASSWORD, $_CONST_MYSQL_DB_NAME);
 
-
-
-//$mySQL->insert('object', ['15', '0', 'd', 'lumiere']);
-/*$result = $mySQL->query("SELECT * FROM object WHERE obj_name = {name}", ['name' => 'd']);
-print_r($result);*/
 ?>

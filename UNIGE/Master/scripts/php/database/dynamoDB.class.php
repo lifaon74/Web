@@ -192,14 +192,6 @@ class DynamoDB {
 
 }
 
-$dynamoDB = new DynamoDB('AKIAI7RYSBXTEAH7RACQ', '5FJviJ8lssg+Cmn80fxfwOvdNNi06ZfbzMfRba2b', 'eu-west-1');
 
-//$dynamoDB->insert('thingbook', [new DynamoDBItem('ID_data', '1', 'blob'), new DynamoDBItem('value', 'ok', 'string')]);
-//print_r($dynamoDB->get('thingbook', new DynamoDBItemAttribute('ID_data', 'KiYQCAl8troWQ6kNhC0+vCmtC7axTbrLgY2TwGw8OOg=', 'string')));
-//$dynamoDB->delete('thingbook', new DynamoDBItemAttribute('ID_data', 'KiYQCAl8troWQ6kNhC0+vCmtC7axTbrLgY2TwGw8OOg=', 'string'));
-
-//print_r($dynamoDB->getLastQueryConsumedCapacity());
-//print_r($dynamoDB->describeTable('thingbook'));
-//print_r($dynamoDB->listAllItemKey('thingbook'));
-//$dynamoDB->clearTable('thingbook');
+$dynamoDB = new DynamoDB($_CONST_DYNAMODB_ACCESS_ID, $_CONST_DYNAMODB_ACCESS_KEY, $_CONST_DYNAMODB_REGION);
 ?>
