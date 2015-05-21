@@ -4,7 +4,8 @@ header("Content-Type:text/plain");
 //print_r($_REQUEST);
 
 function callAPI($json) {
-	return json_decode(file_get_contents("http://78.244.106.44/Web/UNIGE/Master/api/api.php" . "?query=" . urlencode($json)));
+	$ip = $_SERVER['HTTP_HOST'];
+	return json_decode(file_get_contents("http://" . $ip . "/Web/UNIGE/Master/api/api.php" . "?query=" . urlencode($json)));
 }
 
 if(isset($_REQUEST['action'])) {

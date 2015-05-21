@@ -225,7 +225,6 @@ class Microcontroller {
 
 class Atmega32U4 extends Microcontroller {
 	
-	
 	function __construct() {
 		$this->name = 'atmega32U4';
 		$this->AVRname = '__AVR_ATmega32U4__';

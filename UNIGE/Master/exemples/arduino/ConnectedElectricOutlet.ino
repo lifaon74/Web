@@ -1,5 +1,5 @@
 #define ARDUINO_YUN
-//#define DEBUG
+#define DEBUG
 
 #include <SPI.h>
 #include <Bridge.h>
@@ -66,9 +66,11 @@ void register_object() {
 	client.post(url, data);
 	
 	unsigned char i = 0;
+	unsigned char _char;
 	while(client.available()) {
-		unsigned char _char = client.read();
-		
+		_char = client.read();
+		Serial.write(_char);
+
 		if(i == 0) {
 			switch(_char) {
 				case '0':
@@ -223,7 +225,7 @@ void loop() {
 			Serial.println("OK");
 		#endif
 	
-	url = "http://78.244.106.44/Web/UNIGE/Master/exemples/arduino/index.php";
+	url = "http://52.16.38.94/Web/UNIGE/Master/exemples/arduino/index.php";
 	
 	#if defined(DEBUG)
 		Serial.println("init sequence : ");
