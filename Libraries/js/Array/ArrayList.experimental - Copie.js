@@ -3,105 +3,6 @@ var ArrayListElement, ArrayList;
 fnc.require([], function() {
 	
 	ArrayListElement = function(value) {
-		if(typeof value == "undefined") { var value = null; }
-		this.value		= value;
-		this.previous	= null;
-		this.next		= null;
-		this.arrayList	= null;
-	}
-	
-	ArrayListElement.prototype.isDetached = function() {
-		return (this.arrayList === null);
-	}
-	
-		// detach this
-	ArrayListElement.prototype._detach = function() {
-		if(this.arrayList !== null) {
-			if(this.previous !== null) {
-				this.previous.next = this.next;
-			}
-			
-			if(this.next !== null) {
-				this.next.previous = this.previous;
-			}
-			
-			if(this.arrayList.first === this) {
-				this.arrayList.first = this.next;
-			}
-			
-			if(this.arrayList.last === this) {
-				this.arrayList.last = this.previous;
-			}
-			
-			this.arrayList.size--;
-			this.arrayList	= null;
-			
-			this.previous	= null;
-			this.next		= null;
-		}
-		
-		return this;
-	}
-	
-		// insert element after this
-	ArrayListElement.prototype.insertAfter = function(element) {
-		if(this.arrayList !== null) {
-			element._detach();
-			
-			element.previous	= this;
-			element.next		= this.next;
-			
-			if(this.next !== null) {
-				this.next.previous = element;
-			}
-			
-			this.next = element;
-
-			if(this.arrayList !== null) {
-				element.arrayList = this.arrayList;
-				this.arrayList.size++;
-				
-				if(this.arrayList.last === this) {
-					this.arrayList.last = element;
-				}
-			}
-		}
-		
-		return this;
-	}
-	
-	
-	
-	ArrayList = function() {
-		this.first	= null;
-		this.last	= null;
-		this.size	= 0;
-	}
-	
-		// check if element is in this ArrayList
-	ArrayList.prototype.contains = function(element) {
-		return (element.arrayList === this);
-	}
-	
-	
-		// insert element at the end of the list
-	ArrayList.prototype.push = function(element) {
-		if(this.first === null) {
-			element.arrayList	= this;
-			this.first			= element;
-			this.last			= element;
-			this.size++;
-		} else {
-			self.last.insertAfter(element);
-		}
-
-		return self;
-	}
-	
-	
-	
-	
-	ArrayListElement = function(value) {
 		var self = this;
 		
 		this.__construct = function(value) {
@@ -196,7 +97,7 @@ fnc.require([], function() {
 				}
 				
 				self.arrayList.size--;
-				self.arrayList	= null;
+				self.arrayList = null;
 				
 				self.previous	= null;
 				self.next		= null;
@@ -234,9 +135,6 @@ fnc.require([], function() {
 			self.first	= null;
 			self.last	= null;
 			self.size	= 0;
-		}
-		
-		this.insertAfter = function() {
 		}
 		
 		this.push = function(element) {

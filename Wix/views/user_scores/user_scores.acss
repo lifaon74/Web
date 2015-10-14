@@ -1,0 +1,40 @@
+
+.scores_display {
+	margin: 10px;
+	
+	table {
+		width:210px;
+		
+		tr {
+			height: 26px;
+			vertical-align: middle;
+			
+			th {
+				text-align: left;
+				font-weight: normal;
+			}
+			
+			td {
+				width: 90px;
+			}
+			
+			th, td {
+				/*border: 1px solid red;*/
+			}
+		}
+	}
+	
+	.score_point {
+		width: 16px;
+		height: 16px;
+		
+		padding: 1px;
+		margin: 0px;
+		
+		float: left;
+	}
+}
+
+	
+	
+	

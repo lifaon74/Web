@@ -22,6 +22,8 @@ var FncConstructor = function() {
 		
 		self.libsPath['ArrayList'] = self.rootPath + 'Array/ArrayList.experimental.js';
 		self.libsPath['Tree'] = self.rootPath + 'Array/Tree.experimental.js';
+		self.libsPath['ChainedNode'] = self.rootPath + 'Array/ChainedNode.experimental.js';	
+		self.libsPath['IntervalArray'] = self.rootPath + 'Array/IntervalArray.experimental.js';
 		self.libsPath['Cookies'] = self.rootPath + 'Cookies.experimental.js';
 		
 		self.libsPath['String'] = self.rootPath + 'String/String.experimental.js';

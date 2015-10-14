@@ -1,0 +1,14 @@
+div {
+	width: 100%;
+	margin: 20px 0px 20px 0px;
+	font-size: 30px;
+	text-align: center;
+	
+	.error {
+		color: rgb(255, 0, 0);
+	}
+	
+	.feedback {
+		color: rgb(0, 156, 88) ;
+	}
+}

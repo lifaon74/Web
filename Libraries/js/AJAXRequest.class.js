@@ -18,7 +18,7 @@ var AJAXRequest;
 *		"abort"
 **/
 
-fnc.require(['Class', 'Converter'], function() {
+fnc.require(['Class'], function() {
 
 	AJAXRequest = function(settings) {
 		var self = this;
