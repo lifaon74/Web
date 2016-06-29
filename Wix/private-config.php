@@ -8,7 +8,7 @@ switch($_SERVER['HTTP_HOST']) {
 		$_CONST_MYSQL_HOST			= '127.0.0.1';
 		$_CONST_MYSQL_DB_NAME 		= 'wix';
 		$_CONST_MYSQL_USER_NAME 	= 'Administrateur';
-		$_CONST_MYSQL_PASSWORD		= 'Pa$$W0rd';
+		$_CONST_MYSQL_PASSWORD		= 'password';
 		
 	break;
 	
